@@ -17,6 +17,7 @@ for i in range(1, n_csv+1):
     df = pd.read_csv(file_str)
     frame_all = pd.concat([frame_all, df])
 
+frame_all.reset_index(inplace=True)
 # change time related columns from UNIX epoch to datetime 
 for col in ['created_at', 'launched_at', 'state_changed_at', 'deadline']:
     frame_all[col] = frame_all[col].apply(lambda s: datetime.utcfromtimestamp(s)) #.strftime('%Y-%m-%d %H:%M:%S'))
@@ -81,6 +82,13 @@ frame_all.drop(frame_all.columns[0], axis=1, inplace=True)
 
 # remove rows with states other than successful or failed
 frame_all = frame_all.query('state == "successful" or state == "failed"')
+
+# fill some nans with empty strings
+frame_all.creator_name.fillna(value='--', inplace=True)
+frame_all.sub_category.fillna(value='--', inplace=True)
+
+# now drop remaining nans entirely
+frame_all.dropna(inplace=True)
 
 print('Total rows (unique project ids): ', len(frame_all))
 frame_all.to_csv('data/Kickstarter_full.csv')
