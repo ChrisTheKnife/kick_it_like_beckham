@@ -74,7 +74,10 @@ frame_all['baseline'] = frame_all['main_category'].map(d)
 
 # delete obsolete features
 frame_all.drop(['category', 'urls', 'profile', 'location', 'photo', 'creator'], axis=1, inplace=True)
-frame_all.drop(['friends', 'is_backing', 'is_starred'], axis=1, inplace=True)
+print(frame_all.columns)
+frame_all.drop(['friends', 'is_backing', 'is_starred', 'permissions'], axis=1, inplace=True)
+# drop unnamed first column
+frame_all.drop(frame_all.columns[0], axis=1, inplace=True)
 
 # remove rows with states other than successful or failed
 frame_all = frame_all.query('state == "successful" or state == "failed"')
