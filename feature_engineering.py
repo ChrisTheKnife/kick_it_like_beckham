@@ -25,6 +25,12 @@ for col in ['created_at', 'launched_at', 'state_changed_at', 'deadline']:
 # remove duplicate (having the same id) entries 
 frame_all.drop_duplicates(subset='id', inplace=True)
 
+# derive durations in seconds from creation to launch, from launch to state_changed_at and from launch to deadline
+frame_all['dur_inactive'] = (frame_all.launched_at-frame_all.created_at).apply(lambda td: td.total_seconds())
+frame_all['dur_active'] = (frame_all.state_changed_at-frame_all.launched_at).apply(lambda td: td.total_seconds())
+frame_all['dur_total'] = (frame_all.deadline-frame_all.launched_at).apply(lambda td: td.total_seconds())
+frame_all['dur_ratio'] = frame_all.eval('dur_active/dur_total')
+
 # extract category name ("Fine Art") and slug ("photography/fine art") from category column as new features
 frame_all['cat_name'] = frame_all.category.apply(lambda s: s.split('"name":"')[1].split('"')[0])
 frame_all['cat_slug'] = frame_all.category.apply(lambda s: s.split('"slug":"')[1].split('"')[0])
