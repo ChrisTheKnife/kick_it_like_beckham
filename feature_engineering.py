@@ -76,7 +76,7 @@ frame_all['baseline'] = frame_all['main_category'].map(d)
 frame_all.drop(['category', 'urls', 'profile', 'location', 'photo', 'creator'], axis=1, inplace=True)
 frame_all.drop(['friends', 'is_backing', 'is_starred'], axis=1, inplace=True)
 for state in ['canceled', 'live', 'suspended']:
-    frame_all.drop(frame_all.query('state == "{}"'.format(state)).index)
+    frame_all.drop(frame_all.query('state == "{}"'.format(state)).index, inplace=True)
 
 print('Total rows (unique project ids): ', len(frame_all))
 frame_all.to_csv('data/Kickstarter_full.csv')
