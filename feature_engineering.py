@@ -20,7 +20,7 @@ for i in range(1, n_csv+1):
 frame_all.reset_index(inplace=True)
 # change time related columns from UNIX epoch to datetime 
 for col in ['created_at', 'launched_at', 'state_changed_at', 'deadline']:
-    frame_all[col] = frame_all[col].apply(lambda s: datetime.utcfromtimestamp(s)) #.strftime('%Y-%m-%d %H:%M:%S'))
+    frame_all[col] = frame_all[col].apply(lambda s: datetime.utcfromtimestamp(s))
 
 # remove duplicate (having the same id) entries 
 frame_all.drop_duplicates(subset='id', inplace=True)
@@ -75,7 +75,6 @@ frame_all['baseline'] = frame_all['main_category'].map(d)
 
 # delete obsolete features
 frame_all.drop(['category', 'urls', 'profile', 'location', 'photo', 'creator'], axis=1, inplace=True)
-print(frame_all.columns)
 frame_all.drop(['friends', 'is_backing', 'is_starred', 'permissions'], axis=1, inplace=True)
 # drop unnamed first column
 frame_all.drop(frame_all.columns[0], axis=1, inplace=True)
