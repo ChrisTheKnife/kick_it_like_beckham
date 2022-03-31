@@ -27,9 +27,9 @@ frame_all.drop_duplicates(subset='id', inplace=True)
 
 # derive durations in seconds from creation to launch, from launch to state_changed_at and from launch to deadline
 frame_all['dur_inactive'] = (frame_all.launched_at-frame_all.created_at).apply(lambda td: td.total_seconds())
-frame_all['dur_active'] = (frame_all.state_changed_at-frame_all.launched_at).apply(lambda td: td.total_seconds())
-frame_all['dur_total'] = (frame_all.deadline-frame_all.launched_at).apply(lambda td: td.total_seconds())
-frame_all['dur_ratio'] = frame_all.eval('dur_active/dur_total')
+frame_all['dur_until_state_changed'] = (frame_all.state_changed_at-frame_all.launched_at).apply(lambda td: td.total_seconds())
+frame_all['dur_active'] = (frame_all.deadline-frame_all.launched_at).apply(lambda td: td.total_seconds())
+frame_all['dur_ratio'] = frame_all.eval('dur_until_state_changed/dur_active')
 
 # extract category name ("Fine Art") and slug ("photography/fine art") from category column as new features
 frame_all['cat_name'] = frame_all.category.apply(lambda s: s.split('"name":"')[1].split('"')[0])
@@ -87,6 +87,9 @@ frame_all.drop(frame_all.columns[0], axis=1, inplace=True)
 
 # remove rows with states other than successful or failed
 frame_all = frame_all.query('state == "successful" or state == "failed"')
+
+# change state_bool to int
+frame_all.state_bool = frame_all.state_bool.astype('int') 
 
 # fill some nans with empty strings
 frame_all.creator_name.fillna(value='--', inplace=True)
