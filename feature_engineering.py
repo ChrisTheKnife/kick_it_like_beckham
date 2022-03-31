@@ -62,6 +62,27 @@ frame_all['creator_address'] = frame_all.creator.apply(lambda s: s.split('"web":
 frame_all['main_category'] = frame_all.cat_slug.apply(lambda s: s.split('/')[0])
 frame_all['sub_category'] = frame_all.cat_slug.apply(lambda s: np.NaN if len(s.split('/')) == 1 else s.split('/')[1])
 
+# "Money" features
+# Calculate amount of surpass or not surpass (pledged - goal)
+frame_all['goal_surpass'] = frame_all['pledged'] - frame_all['goal']
+# Calculate share of surpassing or not surpassing
+frame_all['goal_surpass_share'] = frame_all['goal_surpass'] / frame_all['goal']
+# Convert goal_surpass into USD
+frame_all['goal_surpass_usd'] = frame_all['goal_surpass'] * frame_all['static_usd_rate']
+# Convert goal into USD
+frame_all['goal_usd'] = frame_all['goal'] * frame_all['static_usd_rate']
+
+# Extract features from Blurb and Name: length + number of words
+# Calculate number of words in blurb
+frame_all['blurb_words'] = frame_all['blurb'].str.split().str.len()
+# Calculate number of characters in blurb
+frame_all['blurb_len'] = frame_all['blurb'].str.len()
+# Calculate number of characters in name
+frame_all['name_len'] = frame_all['name'].str.len()
+# Calculate number of words in name
+frame_all['name_words'] = frame_all['name'].str.split().str.len()
+
+
 # create baseline model and compute predictions based on it
 df=frame_all.groupby(['main_category', 'state']).count().reset_index()
 categories = frame_all.main_category.unique()
