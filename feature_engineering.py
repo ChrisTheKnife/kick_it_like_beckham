@@ -131,7 +131,7 @@ frame_all.dropna(inplace=True)
 
 # change categorical object/string columns to category
 cat_features = ['country', 'cat_name', 'cat_slug', 'loc_name', 'loc_country', 'loc_state', 'loc_type',
-'main_category', 'sub_category']
+'main_category', 'sub_category', 'currency', 'usd_type']
 for feature in cat_features:
     frame_all[feature] = frame_all[feature].astype('category')
 
