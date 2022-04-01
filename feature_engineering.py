@@ -116,6 +116,10 @@ frame_all.state_bool = frame_all.state_bool.astype('int')
 frame_all.creator_name.fillna(value='--', inplace=True)
 frame_all.sub_category.fillna(value='--', inplace=True)
 
+# Drop all rows, which failed but surpassed the goal (state = 'failed' but goal_surpass_usd >= 0)
+index_names = frame_all[(frame_all['state'] == 'failed' ) & (frame_all['goal_surpass_usd'] >= 0)].index
+frame_all= frame_all.drop(index_names)
+
 # now drop remaining nans entirely
 frame_all.dropna(inplace=True)
 
