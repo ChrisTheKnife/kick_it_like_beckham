@@ -14,5 +14,5 @@
 * Failed projects go up to 150 mio $ --> 'goal_usd' should be scaled?
 * The higher the goal the more projects will fail.
 * 3 observations surpassed the goal but nevertheless failed (1085047405, 1880688778, 1090065437) --> Shall be removed??
-* 246+17 projects stated a goal of 1$
+* 246 successful + 17 failed projects stated a goal of 1$
 * What to do with projects with high goals and 0 backers?
