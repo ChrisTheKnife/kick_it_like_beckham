@@ -119,5 +119,11 @@ frame_all.sub_category.fillna(value='--', inplace=True)
 # now drop remaining nans entirely
 frame_all.dropna(inplace=True)
 
+# change categorical object/string columns to category
+cat_features = ['country', 'cat_name', 'cat_slug', 'loc_name', 'loc_country', 'loc_state', 'loc_type',
+'main_category', 'sub_category']
+for feature in cat_features:
+    frame_all[feature] = frame_all[feature].astype('category')
+
 print('Total rows (unique project ids): ', len(frame_all))
 frame_all.to_csv('data/Kickstarter_full.csv')
