@@ -72,7 +72,7 @@ frame_all['goal_surpass_usd'] = frame_all['goal_surpass'] * frame_all['static_us
 # Convert goal into USD
 frame_all['goal_usd'] = frame_all['goal'] * frame_all['static_usd_rate']
 # Transform goal column into a categorical one
-frame_all['goal_categorical'] = pd.cut(frame_all.goal, [1, 500, 5000, 10000, 25000, 50000, 
+frame_all['goal_categorical'] = pd.cut(frame_all.goal_usd, [1, 500, 5000, 10000, 25000, 50000, 
 100000, 200000, 1e6, 5e6, 20e6, 200e6], labels=['1_to_500', '500_to_5k', '5k_to_10k', 
 '10k_to_25k', '25k_to_50k', '50k_to_100k', '100k_to_200k', '200k_to_1m', '1m_to_5m', 
 '5m_to_20m', '20m_to_200m'], include_lowest=True, right=True)
